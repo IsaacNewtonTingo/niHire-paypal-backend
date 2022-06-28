@@ -5,12 +5,21 @@ const paypal = require("paypal-rest-sdk");
 
 const app = express();
 
+require('dotenv').config()
+
 app.engine("ejs", engines.ejs);
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+let port=process.env.PORT
+let host=process.env.HOST
+
+app.listen(port, () => {
+  console.log(`Server is listening on ${host}:${port}`);
+});
 
 paypal.configure({
   mode: "live", //sandbox or live
@@ -31,8 +40,8 @@ app.get("/paypal", (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://ni-hire-paypal-backed.herokuapp.com/success",
-      cancel_url: "http://ni-hire-paypal-backed.herokuapp.com/cancel",
+      return_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel",
     },
     transactions: [
       {
@@ -103,6 +112,3 @@ app.get("/cancel", (req, res) => {
   res.render("cancel");
 });
 
-app.listen(3000, () => {
-  console.log("Server is running");
-});
