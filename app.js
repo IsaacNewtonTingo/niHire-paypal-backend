@@ -2,10 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const engines = require("consolidate");
 const paypal = require("paypal-rest-sdk");
-
 const app = express();
-
-require('dotenv').config()
+require("dotenv").config();
+var nodemailer = require("nodemailer");
 
 app.engine("ejs", engines.ejs);
 app.set("views", "./views");
@@ -14,8 +13,8 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let port=process.env.PORT
-let host=process.env.HOST
+let port = process.env.PORT;
+let host = process.env.HOST;
 
 app.listen(port, () => {
   console.log(`Server is listening on ${host}:${port}`);
@@ -50,7 +49,7 @@ app.get("/paypal", (req, res) => {
             {
               name: "item",
               sku: "item",
-              price: "1000.00",
+              price: "2.00",
               currency: "USD",
               quantity: 1,
             },
@@ -58,7 +57,7 @@ app.get("/paypal", (req, res) => {
         },
         amount: {
           currency: "USD",
-          total: "1000.00",
+          total: "2.00",
         },
         description: "This is the payment description.",
       },
@@ -86,7 +85,7 @@ app.get("/success", (req, res) => {
       {
         amount: {
           currency: "USD",
-          total: "1000.00",
+          total: "2.00",
         },
       },
     ],
@@ -112,3 +111,32 @@ app.get("/cancel", (req, res) => {
   res.render("cancel");
 });
 
+const transporter = nodemailer.createTransport({
+  port: 465, // true for 465, false for other ports
+  host: "mail.privateemail.com",
+  auth: {
+    user: "info@pywv.org",
+    pass: "@GrOVwyp@Ofni2220",
+  },
+  secure: true,
+});
+
+app.post("/send-email", (req, res) => {
+  // const {to,subject,text}=req.body;
+  const mailData = {
+    from: "info@pywv.org", // sender address
+    to: "ape30technologies@gmail.com", // list of receivers
+    subject: "Testing nodemailer email sender",
+    text: "Ola",
+    html: "<b>Hey there! </b>",
+  };
+
+  transporter.sendMail(mailData, (err, info) => {
+    if (err) console.log(err);
+    else {
+      res
+        .status(200)
+        .send({ message: "Email sent", message_id: info.messageId });
+    }
+  });
+});
