@@ -112,11 +112,11 @@ app.get("/cancel", (req, res) => {
 });
 
 const transporter = nodemailer.createTransport({
-  port: 465, // true for 465, false for other ports
+  port: 465,
   host: "mail.privateemail.com",
   auth: {
-    user: "info@pywv.org",
-    pass: "@GrOVwyp@Ofni2220",
+    user: "info@ape30technologies.com",
+    pass: "GrushaVashnadze",
   },
   secure: true,
 });
@@ -124,11 +124,11 @@ const transporter = nodemailer.createTransport({
 app.post("/send-email", (req, res) => {
   // const {to,subject,text}=req.body;
   const mailData = {
-    from: "info@pywv.org", // sender address
-    to: "ape30technologies@gmail.com", // list of receivers
-    subject: "Testing nodemailer email sender",
-    text: "Ola",
-    html: "<b>Hey there! </b>",
+    from: "info@ape30technologies.com", // sender address
+    to: "info@ape30technologies.com, newtontingo@gmail.com, ape30technologies@gmail.com", // list of receivers
+    subject: "Promotion payment request",
+    text: "Respond quickly",
+    html: "<b>Update users info please</b>",
   };
 
   transporter.sendMail(mailData, (err, info) => {
@@ -139,4 +139,21 @@ app.post("/send-email", (req, res) => {
         .send({ message: "Email sent", message_id: info.messageId });
     }
   });
+});
+
+const accountSid = "AC0c761d2fa2f8cb0c0deb43f507beb2ca";
+const authToken = "dd4e77451f262b4a7fa8ec33867ecb92";
+const client = require("twilio")(accountSid, authToken);
+
+app.post("/send-sms", (req, res) => {
+  const { body } = req.body;
+  client.messages
+    .create({
+      body: "User" + body + " has made a promotion payment request",
+      from: "+15672299238",
+      to: "+254724753175",
+    })
+    .then((message) => {
+      res.status(200).send({ message: "SMS sent", message_id: message.sid });
+    });
 });
