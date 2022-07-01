@@ -23,9 +23,9 @@ app.listen(port, () => {
 paypal.configure({
   mode: "live", //sandbox or live
   client_id:
-    "ASjTTYidPyx_Gpq1iTMNCRmqDN2m8INfEt5NA-hNFE4qI6kM-na1TxHIJYcNEQXa0-p-PLnhNDcFuRR5",
+    "ASFBXlCnJkXVe-0t1BXlD3j2oc-dxhyYav6NuXGpOTPm3dSnXZd82SQGrWfqoBdIKn2NDWJSGI4bzhk1",
   client_secret:
-    "EH5gO2714EJf_oiTmeHbpsEcttawQscu-kBi5XzHPFFFXrQBhu50iLKWQMagWXBL7-mpX-sKJ3q-j_DX",
+    "EJviTGYWiF6Kznm5N5nOSdd5OEwpstpPyU19iUB1goR6Fq0RKh-We2SnMDQl0End8EgwXGhXiCJghoVU",
 });
 
 app.get("/", (req, res) => {
