@@ -21,11 +21,11 @@ app.listen(port, () => {
 });
 
 paypal.configure({
-  mode: "sandbox", //sandbox or live
+  mode: "live", //sandbox or live
   client_id:
-    "ASFBXlCnJkXVe-0t1BXlD3j2oc-dxhyYav6NuXGpOTPm3dSnXZd82SQGrWfqoBdIKn2NDWJSGI4bzhk1",
+    "ASjTTYidPyx_Gpq1iTMNCRmqDN2m8INfEt5NA-hNFE4qI6kM-na1TxHIJYcNEQXa0-p-PLnhNDcFuRR5",
   client_secret:
-    "EKfXNO4Ce8--uXZ5UzB8oGfQVcYrif4c4qKgMCIiKoQsSJMHCMC-cwfZZR9t06Tn-oOFJ_ZKGcKYXHqI",
+    "EH5gO2714EJf_oiTmeHbpsEcttawQscu-kBi5XzHPFFFXrQBhu50iLKWQMagWXBL7-mpX-sKJ3q-j_DX",
 });
 
 app.get("/", (req, res) => {
