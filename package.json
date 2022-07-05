@@ -17,6 +17,7 @@
     "nodemailer": "^6.7.6",
     "nodemon": "^2.0.18",
     "paypal-rest-sdk": "^1.8.1",
-    "twilio": "^3.78.0"
+    "twilio": "^3.78.0",
+    "unirest": "^0.6.0"
   }
 }

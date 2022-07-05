@@ -157,3 +157,36 @@ app.post("/send-sms", (req, res) => {
       res.status(200).send({ message: "SMS sent", message_id: message.sid });
     });
 });
+
+app.post('/mpesa-stk',(req,res)=>{
+  
+let unirest = require('unirest');
+let mpesaRreq = unirest('POST', 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest')
+.headers({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer Rm67GhpVLUQqfa6QGJaXG8P8AsRO'
+})
+.send(JSON.stringify({
+    "BusinessShortCode": 174379,
+    "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjIwNzA1MTQzNDQ1",
+    "Timestamp": "20220705143445",
+    "TransactionType": "CustomerPayBillOnline",
+    "Amount": 1,
+    "PartyA": 254724753175,
+    "PartyB": 174379,
+    "PhoneNumber": 254724753175,
+    "CallBackURL": "http://ni-hire-paypal-backed.herokuapp.com/mpesa-response",
+    "AccountReference": "CompanyXLTD",
+    "TransactionDesc": "Payment of X" 
+  }))
+.end(res => {
+    if (res.error) throw new Error(res.error);
+    
+    console.log(res.raw_body);
+})
+res.status(200).send({message:'stk sent'})
+})
+
+app.get('/mpesa-response',(req,res)=>{
+  res.json()
+})
