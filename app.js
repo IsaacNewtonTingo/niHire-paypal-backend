@@ -22,10 +22,8 @@ app.listen(port, () => {
 
 paypal.configure({
   mode: "live", //sandbox or live
-  client_id:
-    "ASjTTYidPyx_Gpq1iTMNCRmqDN2m8INfEt5NA-hNFE4qI6kM-na1TxHIJYcNEQXa0-p-PLnhNDcFuRR5",
-  client_secret:
-    "EH5gO2714EJf_oiTmeHbpsEcttawQscu-kBi5XzHPFFFXrQBhu50iLKWQMagWXBL7-mpX-sKJ3q-j_DX",
+  client_id: process.env.PAYPAL_CLIENT_ID,
+  client_secret: process.env.PAYPAL_CLIENT_SECRET,
 });
 
 app.get("/", (req, res) => {
@@ -141,8 +139,8 @@ app.post("/send-email", (req, res) => {
   });
 });
 
-const accountSid = "AC0c761d2fa2f8cb0c0deb43f507beb2ca";
-const authToken = "dd4e77451f262b4a7fa8ec33867ecb92";
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
 
 app.post("/send-sms", (req, res) => {
@@ -157,36 +155,3 @@ app.post("/send-sms", (req, res) => {
       res.status(200).send({ message: "SMS sent", message_id: message.sid });
     });
 });
-
-app.post('/mpesa-stk',(req,res)=>{
-  
-let unirest = require('unirest');
-let mpesaRreq = unirest('POST', 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest')
-.headers({
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer Rm67GhpVLUQqfa6QGJaXG8P8AsRO'
-})
-.send(JSON.stringify({
-    "BusinessShortCode": 174379,
-    "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjIwNzA1MTQzNDQ1",
-    "Timestamp": "20220705143445",
-    "TransactionType": "CustomerPayBillOnline",
-    "Amount": 1,
-    "PartyA": 254724753175,
-    "PartyB": 174379,
-    "PhoneNumber": 254724753175,
-    "CallBackURL": "http://ni-hire-paypal-backed.herokuapp.com/mpesa-response",
-    "AccountReference": "CompanyXLTD",
-    "TransactionDesc": "Payment of X" 
-  }))
-.end(res => {
-    if (res.error) throw new Error(res.error);
-    
-    console.log(res.raw_body);
-})
-res.status(200).send({message:'stk sent'})
-})
-
-app.get('/mpesa-response',(req,res)=>{
-  res.json()
-})
