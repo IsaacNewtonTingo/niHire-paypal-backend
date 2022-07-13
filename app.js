@@ -109,14 +109,24 @@ app.get("/cancel", (req, res) => {
   res.render("cancel");
 });
 
-const transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
   port: 465,
-  host: "",
-  auth: {
-    user: "",
-    pass: "",
-  },
   secure: true,
+  service: "gmail",
+  auth: {
+    user: process.env.AUTH_EMAIL,
+    pass: process.env.AUTH_PASS,
+  },
+});
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready for message");
+    console.log(success);
+  }
 });
 
 app.post("/send-email", (req, res) => {
