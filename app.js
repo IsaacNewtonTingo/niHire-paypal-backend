@@ -111,10 +111,10 @@ app.get("/cancel", (req, res) => {
 
 const transporter = nodemailer.createTransport({
   port: 465,
-  host: "mail.privateemail.com",
+  host: "",
   auth: {
-    user: "info@ape30technologies.com",
-    pass: "GrushaVashnadze",
+    user: "",
+    pass: "",
   },
   secure: true,
 });
